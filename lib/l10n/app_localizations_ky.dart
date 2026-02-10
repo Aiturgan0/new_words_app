@@ -4,9 +4,9 @@ import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for Kongo (`kg`).
-class AppLocalizationsKg extends AppLocalizations {
-  AppLocalizationsKg([String locale = 'kg']) : super(locale);
+/// The translations for Kirghiz Kyrgyz (`ky`).
+class AppLocalizationsKy extends AppLocalizations {
+  AppLocalizationsKy([String locale = 'ky']) : super(locale);
 
   @override
   String get app_title => 'Менин жаңы сөздөрүм';
@@ -102,5 +102,5 @@ class AppLocalizationsKg extends AppLocalizations {
   String get delete_question => 'Бул папканы чын эле өчүрөсүзбү?';
 
   @override
-  String get select_language => 'Тилди тандоо';
+  String get select_language => 'Тилди тандаңыз';
 }

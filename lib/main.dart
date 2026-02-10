@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:new_words_app/services/language_service.dart';
 import 'theme/app_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'services/translation_service.dart';
 import 'screens/welcome_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:new_words_app/l10n/app_localizations.dart';
@@ -22,7 +22,7 @@ class NewWordsApp extends StatelessWidget {
       valueListenable: AppTheme.themeModeNotifier,
       builder: (context, currentMode, child) {
         return ValueListenableBuilder<String>(
-          valueListenable: TranslationService.currentLanguage,
+          valueListenable: LanguageService.currentLanguage,
           builder: (context, lang, child) {
             return MaterialApp(
               onGenerateTitle: (context) =>
@@ -36,7 +36,7 @@ class NewWordsApp extends StatelessWidget {
               ],
               supportedLocales: const [
                 Locale('en'), // English
-                Locale('kg'), // Kyrgyz
+                Locale('ky'), // Kyrgyz
                 Locale('ru'), // Russian
                 Locale('de'), // German
               ],

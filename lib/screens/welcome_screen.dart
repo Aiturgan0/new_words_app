@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import '../theme/app_theme.dart';
-import '../services/translation_service.dart';
+import '../services/language_service.dart';
 import 'package:new_words_app/l10n/app_localizations.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
             _langOption(context, '🇺🇸 English', 'en'),
             _langOption(context, '🇩🇪 Deutsch', 'de'),
             _langOption(context, '🇷🇺 Русский', 'ru'),
-            _langOption(context, '🇰🇬 Кыргызча', 'kg'),
+            _langOption(context, '🇰🇬 Кыргызча', 'ky'),
           ],
         ),
       ),
@@ -29,10 +29,10 @@ class WelcomeScreen extends StatelessWidget {
     return ListTile(
       title: Text(title, style: const TextStyle(fontSize: 18)),
       onTap: () {
-        TranslationService.currentLanguage.value = code;
+        LanguageService.currentLanguage.value = code;
         Navigator.pop(context);
       },
-      trailing: TranslationService.currentLanguage.value == code
+      trailing: LanguageService.currentLanguage.value == code
           ? const Icon(Icons.check, color: Colors.blue)
           : null,
     );
@@ -87,7 +87,7 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context)!.app_title,
                   style: TextStyle(
-                    fontSize: TranslationService.currentLanguage.value == 'kg'
+                    fontSize: LanguageService.currentLanguage.value == 'ky'
                         ? 26
                         : 32,
                     color: Colors.white,
