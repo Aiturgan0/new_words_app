@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:new_words_app/l10n/app_localizations.dart';
+import 'package:new_words/l10n/app_localizations.dart';
 
 class FolderMenu {
   static void show({

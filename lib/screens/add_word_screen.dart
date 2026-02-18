@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/db_service.dart';
 
-import 'package:new_words_app/l10n/app_localizations.dart';
+import 'package:new_words/l10n/app_localizations.dart';
 
 class AddWordScreen extends StatefulWidget {
   final int dayIndex;

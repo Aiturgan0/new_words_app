@@ -9,7 +9,7 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get app_title => 'Meine Neuen Wörter';
+  String get app_title => 'Neue Wörter';
 
   @override
   String get start => 'STARTEN';

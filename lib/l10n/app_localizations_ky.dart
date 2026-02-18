@@ -9,7 +9,7 @@ class AppLocalizationsKy extends AppLocalizations {
   AppLocalizationsKy([String locale = 'ky']) : super(locale);
 
   @override
-  String get app_title => 'Менин жаңы сөздөрүм';
+  String get app_title => 'Жаңы сөздөр';
 
   @override
   String get start => 'БАШТОО';

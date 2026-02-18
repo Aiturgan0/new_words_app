@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import '../theme/app_theme.dart';
 import '../services/language_service.dart';
-import 'package:new_words_app/l10n/app_localizations.dart';
+import 'package:new_words/l10n/app_localizations.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -82,7 +82,11 @@ class WelcomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.style, size: 100, color: Colors.white),
+                const Image(
+                  image: AssetImage('assets/images/NewWords.png'),
+                  width: 200,
+                  height: 200,
+                ),
                 const SizedBox(height: 20),
                 Text(
                   AppLocalizations.of(context)!.app_title,

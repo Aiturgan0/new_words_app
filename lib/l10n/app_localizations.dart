@@ -105,7 +105,7 @@ abstract class AppLocalizations {
   /// No description provided for @app_title.
   ///
   /// In en, this message translates to:
-  /// **'My New Words'**
+  /// **'New Words'**
   String get app_title;
 
   /// No description provided for @start.

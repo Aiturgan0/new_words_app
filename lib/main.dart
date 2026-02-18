@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:new_words_app/services/language_service.dart';
+import 'package:new_words/services/language_service.dart';
 import 'theme/app_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/welcome_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:new_words_app/l10n/app_localizations.dart';
+import 'package:new_words/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

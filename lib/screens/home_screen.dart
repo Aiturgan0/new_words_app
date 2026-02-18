@@ -5,7 +5,7 @@ import 'word_list.dart';
 import 'game_screen.dart';
 import 'add_word_screen.dart';
 
-import 'package:new_words_app/l10n/app_localizations.dart';
+import 'package:new_words/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
