@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
-import '../theme/app_theme.dart';
-import '../services/language_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/theme/theme_bloc.dart';
+import '../blocs/theme/theme_state.dart';
+import '../blocs/language/language_bloc.dart';
+import '../blocs/language/language_state.dart';
 import 'package:new_words/l10n/app_localizations.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  void _showLanguageDialog(BuildContext context) {
+  Widget _langOption(BuildContext context, String title, String code, String currentCode) {
+    return ListTile(
+      title: Text(title, style: const TextStyle(fontSize: 18)),
+      onTap: () {
+        context.read<LanguageBloc>().add(ChangeLanguage(code));
+        Navigator.pop(context);
+      },
+      trailing: currentCode == code
+          ? const Icon(Icons.check, color: Colors.blue)
+          : null,
+    );
+  }
+
+  void _showLanguageDialog(BuildContext context, String currentCode) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -15,43 +31,31 @@ class WelcomeScreen extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _langOption(context, '🇺🇸 English', 'en'),
-            _langOption(context, '🇩🇪 Deutsch', 'de'),
-            _langOption(context, '🇷🇺 Русский', 'ru'),
-            _langOption(context, '🇰🇬 Кыргызча', 'ky'),
+            _langOption(context, '🇺🇸 English', 'en', currentCode),
+            _langOption(context, '🇩🇪 Deutsch', 'de', currentCode),
+            _langOption(context, '🇷🇺 Русский', 'ru', currentCode),
+            _langOption(context, '🇰🇬 Кыргызча', 'ky', currentCode),
           ],
         ),
       ),
     );
   }
 
-  Widget _langOption(BuildContext context, String title, String code) {
-    return ListTile(
-      title: Text(title, style: const TextStyle(fontSize: 18)),
-      onTap: () {
-        LanguageService.currentLanguage.value = code;
-        Navigator.pop(context);
-      },
-      trailing: LanguageService.currentLanguage.value == code
-          ? const Icon(Icons.check, color: Colors.blue)
-          : null,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: AppTheme.themeModeNotifier,
-      builder: (context, mode, child) {
-        bool isDark = mode == ThemeMode.dark;
-        return Scaffold(
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        return BlocBuilder<LanguageBloc, LanguageState>(
+          builder: (context, langState) {
+            bool isDark = themeState.themeMode == ThemeMode.dark;
+            return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.language, color: Colors.white, size: 30),
-              onPressed: () => _showLanguageDialog(context),
+              onPressed: () => _showLanguageDialog(context, langState.languageCode),
             ),
             actions: [
               IconButton(
@@ -61,9 +65,7 @@ class WelcomeScreen extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () {
-                  AppTheme.themeModeNotifier.value = isDark
-                      ? ThemeMode.light
-                      : ThemeMode.dark;
+                  context.read<ThemeBloc>().add(ToggleTheme());
                 },
               ),
               const SizedBox(width: 10),
@@ -91,7 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context)!.app_title,
                   style: TextStyle(
-                    fontSize: LanguageService.currentLanguage.value == 'ky'
+                    fontSize: langState.languageCode == 'ky'
                         ? 26
                         : 32,
                     color: Colors.white,
@@ -125,6 +127,8 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
         );
+      },
+    );
       },
     );
   }

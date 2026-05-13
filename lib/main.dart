@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:new_words/services/language_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_words/blocs/theme/theme_bloc.dart';
+import 'package:new_words/blocs/theme/theme_state.dart';
+import 'package:new_words/blocs/language/language_bloc.dart';
+import 'package:new_words/blocs/language/language_state.dart';
+import 'package:new_words/blocs/folders/folders_bloc.dart';
+import 'package:new_words/blocs/folders/folders_state.dart';
 import 'theme/app_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/welcome_screen.dart';
@@ -18,37 +24,42 @@ class NewWordsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: AppTheme.themeModeNotifier,
-      builder: (context, currentMode, child) {
-        return ValueListenableBuilder<String>(
-          valueListenable: LanguageService.currentLanguage,
-          builder: (context, lang, child) {
-            return MaterialApp(
-              onGenerateTitle: (context) =>
-                  AppLocalizations.of(context)!.app_title,
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en'), // English
-                Locale('ky'), // Kyrgyz
-                Locale('ru'), // Russian
-                Locale('de'), // German
-              ],
-              locale: Locale(lang),
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              themeMode: currentMode,
-              home: WelcomeScreen(),
-            );
-          },
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeBloc()),
+        BlocProvider(create: (context) => LanguageBloc()),
+        BlocProvider(create: (context) => FoldersBloc()..add(LoadFolders())),
+      ],
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, themeState) {
+          return BlocBuilder<LanguageBloc, LanguageState>(
+            builder: (context, langState) {
+              return MaterialApp(
+                onGenerateTitle: (context) =>
+                    AppLocalizations.of(context)!.app_title,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en'), // English
+                  Locale('ky'), // Kyrgyz
+                  Locale('ru'), // Russian
+                  Locale('de'), // German
+                ],
+                locale: Locale(langState.languageCode),
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeState.themeMode,
+                home: WelcomeScreen(),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

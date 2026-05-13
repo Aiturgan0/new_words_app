@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static final ValueNotifier<ThemeMode> themeModeNotifier = ValueNotifier(
-    ThemeMode.system,
-  );
 
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,

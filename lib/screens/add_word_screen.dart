@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../services/db_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/folders/folders_bloc.dart';
+import '../blocs/folders/folders_state.dart';
 
 import 'package:new_words/l10n/app_localizations.dart';
 
@@ -12,29 +14,28 @@ class AddWordScreen extends StatefulWidget {
 }
 
 class _AddWordScreenState extends State<AddWordScreen> {
-  final DbService _db = DbService();
   final TextEditingController _wdController = TextEditingController();
   final TextEditingController _trController = TextEditingController();
-  late List allData;
   List<Map<String, dynamic>> addedWordsSession = [];
 
   @override
   void initState() {
     super.initState();
-    allData = _db.loadDays();
   }
 
   void _addWord() {
     if (_wdController.text.isNotEmpty && _trController.text.isNotEmpty) {
-      setState(() {
-        var newWord = {
-          'wd': _wdController.text,
-          'tr': _trController.text,
-          'isFav': false,
-        };
-        allData[widget.dayIndex]['words'].insert(0, newWord);
-        _db.saveDays(allData);
+      var newWord = {
+        'wd': _wdController.text,
+        'tr': _trController.text,
+        'isFav': false,
+      };
 
+      context.read<FoldersBloc>().add(
+        AddWord(widget.dayIndex, _wdController.text, _trController.text),
+      );
+
+      setState(() {
         // Add to session list for display
         addedWordsSession.insert(0, newWord);
 
